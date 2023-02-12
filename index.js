@@ -1,5 +1,9 @@
 const TenFour = require('./ten-four');
 const tenFour = new TenFour();
+tenFour.reports([
+  TenFour.Console(),
+  TenFour.Console()
+]);
 
 const Logger = {
   info: (message) => tenFour.log('info', message)
