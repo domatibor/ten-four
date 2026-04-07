@@ -1,8 +1,20 @@
 const TenFour = require('./ten-four');
+
 const tenFour = new TenFour();
 tenFour.reports([
-  TenFour.Console(),
-  TenFour.Console()
+  TenFour.Console(
+    {
+      format: {
+        pattern: '([%level]):level (%message):message - (%timestamp):timestamp',
+        styles: {
+          level: {
+            color: 'cyan'
+          }
+        }
+      }
+    }
+  ),
+  // TenFour.Console()
 ]);
 
 const Logger = {

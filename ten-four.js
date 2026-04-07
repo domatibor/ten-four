@@ -49,12 +49,25 @@ TenFour.prototype.reports = function(reporters) {
   this.reporters = reporters;
 }
 
-TenFour.Console = function() {
+TenFour.Console = function(config) {
   return {
     log: function(log) {
-      process.stdout.write(log + '\n');
+      const formatted = TenFour.Format(log, config.format.pattern, config.format.styles);
+      process.stdout.write(formatted + '\n');
     }
   };
+}
+
+TenFour.Format = function(log, pattern, style) {
+  const PATTERN = /(?<context>\((?<content>.*?)\):(?<variable>[a-z]*))/g;
+  const matches = pattern.matchAll(PATTERN);
+  let replaced = pattern;
+  for (const match of matches) {
+    const { context, content, variable } = match.groups;
+    const wrappedContent = `\x1b[34m${content}\x1b[0m`;
+    replaced = replaced.replace(context, wrappedContent);
+  }
+  return replaced;
 }
 
 module.exports = TenFour;
